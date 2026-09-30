@@ -1,25 +1,26 @@
 import { ConnectForm } from "../ConnectForm/ConnectForm";
 import { Flex, Panel, Typography } from "@maxhub/max-ui";
-import type { Credentials } from '@/api';
+import { useAuth } from '@/features/auth';
 
 import styles from './styles.module.css';
+import { useEffect } from "react";
+import { useNavigate } from "react-router";
 
 export function Connect() {
-	function handleConnect(credencials: Credentials) {
-		return new Promise<void>((resolve) => {
-			setTimeout(() => {
-				console.log(credencials)
-				resolve()
-			}, 2000)
-		});
-	}
+	const { onConnect, stateInstance } = useAuth();
+	const navigate = useNavigate();
 
-  return (
-    <Panel mode="primary" className={styles.panel}>
-		<Flex direction="column" gapY={24}>
-			<Typography.Headline>Подключение к Green-API</Typography.Headline>
-			<ConnectForm onConnect={handleConnect} />
-		</Flex>
-	</Panel>
-  )
+	useEffect(() => {
+		if (!stateInstance) return
+		navigate('/chat');
+	}, [stateInstance])
+
+	return (
+		<Panel mode="primary" className={styles.panel}>
+			<Flex direction="column" gapY={24}>
+				<Typography.Headline>Подключение к Green-API</Typography.Headline>
+				<ConnectForm onConnect={onConnect} />
+			</Flex>
+		</Panel>
+	)
 }

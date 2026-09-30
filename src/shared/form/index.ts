@@ -1,5 +1,5 @@
 export {
 	useForm,
-} from './hooks/useForm'
+} from './useForm'
 export * from './validations';
-export type { Validation } from './hooks/useForm';
+export type { Validation } from './useForm';

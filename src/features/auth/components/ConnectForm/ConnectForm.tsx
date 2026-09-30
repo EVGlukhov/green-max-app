@@ -1,6 +1,6 @@
 import { Button, CellHeader, CellInput, CellList } from "@maxhub/max-ui";
 import { useForm, isNumeric, isRequired, isURL, type Validation } from '@/shared/form';
-import type { Credentials } from '@/api';
+import type { Credentials } from '@/features/auth/authApi';
 
 import styles from './style.module.css';
 import { useTransition } from "react";
