@@ -13,7 +13,7 @@ export function Connect() {
 	useEffect(() => {
 		if (!stateInstance) return
 		navigate('/chat');
-	}, [stateInstance])
+	}, [stateInstance, navigate])
 
 	return (
 		<Panel mode="primary" className={styles.panel}>

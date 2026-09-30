@@ -5,7 +5,7 @@ import { AuthProvider } from "./features/auth"
 function App() {
   return (
 		<AuthProvider>
-    	<RouterProvider router={router} />
+			<RouterProvider router={router} />
 		</AuthProvider>
   )
 }

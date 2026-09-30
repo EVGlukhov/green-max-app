@@ -19,12 +19,10 @@ type AuthProviderProps = {
 };
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  	const [stateInstance, setStateInstance] = useState("");
+	const [stateInstance, setStateInstance] = useState("");
 
-  const handleConnect = async (credentials: Credentials) => {
-		debugger;
+  const onConnect = async (credentials: Credentials) => {
     try {
-			debugger;
 			const result = await authApi.connect(credentials);
 			setStateInstance(result.stateInstance);
 		} catch (error) {
@@ -32,17 +30,19 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 		}
   };
 
-  const handleDisconnect = () => {
+  const onDisconnect = () => {
     setStateInstance("");
   };
 
   const value = {
     stateInstance,
-    onConnect: handleConnect,
-    onDisconnect: handleDisconnect,
+    onConnect,
+    onDisconnect,
   };
 
   return (
-		<AuthContext.Provider value={value}>{children}</AuthContext.Provider>
-);
+		<AuthContext.Provider value={value}>
+			{children}
+		</AuthContext.Provider>
+	);
 };

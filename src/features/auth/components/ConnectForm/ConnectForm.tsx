@@ -1,9 +1,9 @@
 import { Button, CellHeader, CellInput, CellList } from "@maxhub/max-ui";
 import { useForm, isNumeric, isRequired, isURL, type Validation } from '@/shared/form';
 import type { Credentials } from '@/features/auth/authApi';
+import { useTransition } from "react";
 
 import styles from './style.module.css';
-import { useTransition } from "react";
 
 interface Props {
 	onConnect(credencials: Credentials): Promise<void>;
@@ -26,6 +26,7 @@ export function ConnectForm({ onConnect }: Props) {
 
 	const { values, changeHandler, submitHandler, isValid } = useForm<Credentials>(initialState, validations, () => {
 		startTransition(async () => {
+			debugger;
 			await onConnect(values)
 		})
 	});
