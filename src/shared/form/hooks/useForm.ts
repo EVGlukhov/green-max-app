@@ -29,7 +29,7 @@ export function useForm<T>(
   const [ touched, setTouched ] = useState({});
 
   const changeHandler: ChangeEventHandler<HTMLInputElement> =
-  	({ currentTarget: { name, value } }) => {
+  	({ target: { name, value } }) => {
 		const newValues = { ...values, [name]: value };
 		const {isValid, errors} = validate(validations, newValues);
 		setValues(newValues);

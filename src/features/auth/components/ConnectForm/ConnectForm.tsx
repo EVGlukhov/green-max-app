@@ -3,6 +3,7 @@ import { useForm, isNumeric, isRequired, isURL, type Validation } from '@/shared
 import type { Credentials } from '@/api';
 
 import styles from './style.module.css';
+import { useTransition } from "react";
 
 interface Props {
 	onConnect(credencials: Credentials): Promise<void>;
@@ -10,9 +11,9 @@ interface Props {
 
 export function ConnectForm({ onConnect }: Props) {
 	const initialState: Credentials = {
-		idInstance: '',
-		apiTokenInstance: '',
-		apiUrl: ''
+		idInstance: '410022748242',
+		apiTokenInstance: 'd0e5f705e46746719b3e86787af94ab6707b2d11c80a47b1bb',
+		apiUrl: 'https://4100.api.green-api.com'
 	};
 	const validations: Validation<Credentials>[] = [
 		({ idInstance }) => isNumeric(idInstance) || { idInstance: 'Укажите числовой idInstance' },
@@ -20,7 +21,14 @@ export function ConnectForm({ onConnect }: Props) {
 		({ apiUrl }) => isURL(apiUrl) || { apiUrl: 'Введите корректный apiUrl' }
 	]
 
-	const { values, changeHandler, submitHandler } = useForm<Credentials>(initialState, validations, onConnect);
+	const [isPending, startTransition] = useTransition();
+
+
+	const { values, changeHandler, submitHandler, isValid } = useForm<Credentials>(initialState, validations, () => {
+		startTransition(async () => {
+			await onConnect(values)
+		})
+	});
 
 	return (
 		<form onSubmit={submitHandler} className={styles.form}>
@@ -31,6 +39,7 @@ export function ConnectForm({ onConnect }: Props) {
 			>
 				<CellInput
 					before="ID"
+					name="idInstance"
 					defaultValue={values.idInstance}
 					autoComplete="off"
 					placeholder="Ваш idInstance"
@@ -39,6 +48,7 @@ export function ConnectForm({ onConnect }: Props) {
 				<CellInput
 					defaultValue={values.apiTokenInstance}
 					type="password"
+					name="apiTokenInstance"
 					autoComplete="off"
 					before="Токен"
 					placeholder="Ваш apiTokenInstance"
@@ -47,6 +57,7 @@ export function ConnectForm({ onConnect }: Props) {
 				<CellInput
 					defaultValue={values.apiUrl}
 					type="url"
+					name="apiUrl"
 					autoComplete="url"
 					before="Адрес API"
 					placeholder="Ваш apiUrl"
@@ -56,6 +67,8 @@ export function ConnectForm({ onConnect }: Props) {
 			<Button
 				type="submit"
 				stretched
+				loading={isPending}
+				disabled={!isValid}
 			>
 				Подключиться
 			</Button>

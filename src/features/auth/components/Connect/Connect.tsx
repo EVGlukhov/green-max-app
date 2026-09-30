@@ -5,8 +5,13 @@ import type { Credentials } from '@/api';
 import styles from './styles.module.css';
 
 export function Connect() {
-	async function handleConnect(credencials: Credentials) {
-		console.log(credencials)
+	function handleConnect(credencials: Credentials) {
+		return new Promise<void>((resolve) => {
+			setTimeout(() => {
+				console.log(credencials)
+				resolve()
+			}, 2000)
+		});
 	}
 
   return (
