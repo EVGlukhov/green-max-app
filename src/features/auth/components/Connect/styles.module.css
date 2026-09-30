@@ -1,0 +1,6 @@
+.panel {
+	border-radius: var(--size-border-radius-panel);
+    backdrop-filter: blur(var(--backdrop-filter-panel));
+    background: var(--background-primary);
+    padding: var(--spacing-size4xl);
+}
