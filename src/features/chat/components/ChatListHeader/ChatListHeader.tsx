@@ -6,7 +6,7 @@ type Props = {
 	onSearch(term: string): void
 }
 
-export function ConversationHeader({ onSearch }: Props) {
+export function ChatListHeader({ onSearch }: Props) {
 	return (
 		<header className={styles.sidebarHeader}>
 			<Flex justify="space-between">

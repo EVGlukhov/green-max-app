@@ -1,2 +1,2 @@
-export { ConversationHeader } from './ConversationHeader/ConversationHeader';
-export { ConversationList } from './ConversationList/ConversationList'
+export { ChatListHeader } from './ChatListHeader/ChatListHeader';
+export { ChatList } from './ChatList/ChatList'

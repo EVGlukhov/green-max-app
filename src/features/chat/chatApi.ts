@@ -1,18 +1,7 @@
-export type Message = {
-	id: number;
-	text: string;
-	time: string;
-	outgoing?: boolean;
-};
-
-export type Conversation = {
-	id: string;
+export type Chat = {
+	chatId: string;
 	name: string;
-	preview: string;
-	time: string;
-	initials: string;
-	color: string;
-	unread?: number;
-	online?: boolean;
-	messages: Message[];
-};
+	type: "user";
+	phoneNumber: 0;
+	username: string;
+}

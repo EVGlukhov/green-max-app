@@ -1,14 +1,18 @@
-import { ConnectForm } from "../ConnectForm/ConnectForm";
 import { Flex, Panel, Typography } from "@maxhub/max-ui";
-import { useAuth } from '@/features/auth';
-
-import styles from './styles.module.css';
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
+import { useGreen, type Credentials } from '@/api';
+import { ConnectForm } from "../ConnectForm/ConnectForm";
+
+import styles from './styles.module.css';
 
 export function Connect() {
-	const { onConnect, stateInstance } = useAuth();
+	const { getStateInstance, stateInstance } = useGreen();
 	const navigate = useNavigate();
+
+	const handleConnect = async (credencials: Credentials) => {
+		await getStateInstance(credencials);
+	}
 
 	useEffect(() => {
 		if (!stateInstance) return
@@ -24,7 +28,7 @@ export function Connect() {
 					<Typography.Label>Введите данные Green-API, чтобы открыть ваши чаты</Typography.Label>
 				</Flex>
 
-				<ConnectForm onConnect={onConnect} />
+				<ConnectForm onConnect={handleConnect} />
 
 				<Flex align="center" className={styles.help}>
 					<span>i</span>

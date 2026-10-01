@@ -1,12 +1,12 @@
 import { RouterProvider } from "react-router"
 import { router } from "./routes"
-import { AuthProvider } from "./features/auth"
+import { GreenProvider } from "@/api"
 
 function App() {
   return (
-		<AuthProvider>
+		<GreenProvider>
 			<RouterProvider router={router} />
-		</AuthProvider>
+		</GreenProvider>
   )
 }
 

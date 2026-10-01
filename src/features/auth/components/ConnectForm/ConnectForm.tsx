@@ -1,12 +1,12 @@
 import { Button, CellHeader, CellInput, CellList } from "@maxhub/max-ui";
 import { useForm, isNumeric, isRequired, isURL, type Validation } from '@/shared/form';
-import type { Credentials } from '@/features/auth/authApi';
+import type { Credentials } from '@/api';
 import { useTransition } from "react";
 
 import styles from './style.module.css';
 
 interface Props {
-	onConnect(credencials: Credentials): Promise<void>;
+	onConnect(credencials: Credentials): void;
 }
 
 export function ConnectForm({ onConnect }: Props) {

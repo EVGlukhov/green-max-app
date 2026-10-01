@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from 'react-router';
-import { useAuth } from '@/features/auth';
+import { useGreen } from '@/api';
 
 export const ProtectedRoute = () => {
-  const { stateInstance } = useAuth();
+  const { stateInstance } = useGreen();
   return stateInstance ? <Outlet /> : <Navigate to="/" replace />;
 };

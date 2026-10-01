@@ -1,20 +1,23 @@
-import { useState } from "react";
 import { Container, Flex, Grid, IconButton, Panel } from "@maxhub/max-ui";
-import { useAuth } from "@/features/auth";
 import { Brand } from "@/shared";
-
-import { ConversationHeader, ConversationList } from "./components";
-import { useConversation } from "./hooks/useConversation";
-
-import { сonversations } from './__mocks__/conversations';
+import { useGreen } from "@/api/useGreen"
+import { ChatListHeader, ChatList } from "./components";
+import { useChat } from "./hooks/useChat";;
 
 import styles from "./styles.module.css";
+import { useEffect } from "react";
 
 export function Chat() {
-	const { onDisconnect } = useAuth();
-	const { activeConversation, visibleConversations, searchConversation, selectConversation } = useConversation(сonversations)
+	const { chats, logout, getChats, credentials } = useGreen();
+	const { selectedChatId, visibleChats, searchChat, selectChat } = useChat(chats)
 
-	const [draft, setDraft] = useState("");
+	useEffect(() => {
+		if (!credentials)
+			return
+
+		getChats(credentials);
+	}, [credentials])
+
 
 	// const sendMessage = (event: FormEvent<HTMLFormElement>) => {
 	// 	event.preventDefault();
@@ -54,18 +57,18 @@ export function Chat() {
 						variant="secondary"
 						size="medium"
 						className={styles.disconnectButton}
-						onClick={onDisconnect}
+						onClick={logout}
 					>
 						<span aria-hidden="true">↪</span>
 					</IconButton>
 				</Flex>
 
 				<Panel mode="primary" className={styles.sidebar}>
-					<ConversationHeader onSearch={searchConversation} />
-					<ConversationList
-						visibleConversations={visibleConversations}
-						activeConversation={activeConversation}
-						onSelect={selectConversation} />
+					<ChatListHeader onSearch={searchChat} />
+					<ChatList
+						chats={visibleChats}
+						selectedId={selectedChatId}
+						onSelect={selectChat} />
 				</Panel>
 
 				<Panel
