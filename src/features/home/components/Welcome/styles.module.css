@@ -1,0 +1,45 @@
+.welcome {
+	position: relative;
+	min-width: 0;
+	padding: 24px 0 0;
+}
+
+.display {
+	display: block;
+	margin-bottom: var(--spacing-sizexl);
+}
+
+.displayAccent {
+	background: var(--gradient-blue);
+	background-clip: text;
+	color: transparent;
+	-webkit-text-fill-color: transparent;
+}
+
+
+.features {
+	display: flex;
+	flex-wrap: wrap;
+	margin-top: 22px;
+}
+
+.feature {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	color: var(--text-primary, inherit);
+	font-size: 13px;
+	font-weight: 550;
+}
+
+.featureIcon {
+	display: grid;
+	width: 25px;
+	height: 25px;
+	place-items: center;
+	border-radius: 9px;
+	background: rgb(76 195 137 / 12%);
+	color: var(--text-themed);
+	font-size: 14px;
+	font-weight: 700;
+}

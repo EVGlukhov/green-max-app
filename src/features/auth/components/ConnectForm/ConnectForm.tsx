@@ -26,7 +26,6 @@ export function ConnectForm({ onConnect }: Props) {
 
 	const { values, changeHandler, submitHandler, isValid } = useForm<Credentials>(initialState, validations, () => {
 		startTransition(async () => {
-			debugger;
 			await onConnect(values)
 		})
 	});

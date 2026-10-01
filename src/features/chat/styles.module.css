@@ -1,0 +1,493 @@
+.container {
+	width: 100%;
+	height: 100dvh;
+	min-height: 0;
+	padding: 16px;
+	overflow: hidden;
+	background:
+		radial-gradient(ellipse at 30% 0%, rgb(95 154 242 / 12%), transparent 42%),
+		var(--background-primary);
+}
+
+.grid {
+	display: grid;
+	grid-template-columns: 68px minmax(300px, 360px) minmax(0, 1fr);
+	width: 100%;
+	height: 100%;
+	max-width: 1600px;
+	margin: 0 auto;
+	overflow: hidden;
+	border: 1px solid rgb(255 255 255 / 8%);
+	border-radius: 24px;
+	background: var(--background-primary);
+	box-shadow: 0 24px 80px rgb(10 21 38 / 20%);
+}
+
+.actions {
+	z-index: 1;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 22px;
+	padding: 20px 8px 16px;
+	border-right: 1px solid rgb(128 145 170 / 12%);
+	background: var(--background-secondary, var(--background-primary));
+}
+
+.sidebar {
+	min-width: 0;
+	height: 100%;
+	overflow: hidden;
+	border-radius: 0;
+}
+
+.thread {
+	display: flex;
+	flex-direction: column;
+	background:
+		radial-gradient(ellipse at 50% 20%, rgb(87 155 255 / 6%), transparent 55%),
+		var(--background-primary);
+}
+
+.disconnectButton {
+	font-size: 22px;
+	transform: scaleX(-1);
+}
+
+/*
+.
+
+.navigation {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	gap: 10px;
+}
+
+
+.disconnectButton {
+	position: relative;
+	width: 44px;
+	height: 44px;
+	border-radius: 15px;
+}
+
+.navButton::before {
+	position: absolute;
+	top: 10px;
+	bottom: 10px;
+	left: -9px;
+	width: 3px;
+	border-radius: 0 3px 3px 0;
+	background: #579bff;
+	content: "";
+}
+
+.icon {
+	width: 22px;
+	height: 22px;
+}
+
+.sidebar {
+	display: flex;
+	flex-direction: column;
+	border-right: 1px solid rgb(128 145 170 / 12%);
+	background: var(--background-primary);
+}
+
+.composeButton,
+.threadActions button,
+.backButton {
+	display: grid;
+	width: 38px;
+	height: 38px;
+	place-items: center;
+	border: 0;
+	border-radius: 50%;
+	background: transparent;
+	color: var(--text-primary, inherit);
+	cursor: pointer;
+	font: inherit;
+	font-size: 25px;
+}
+
+.composeButton:hover,
+.threadActions button:hover,
+.backButton:hover {
+	background: rgb(128 145 170 / 12%);
+}
+
+.search {
+	display: flex;
+	height: 42px;
+	align-items: center;
+	gap: 9px;
+	padding: 0 12px;
+	border: 1px solid rgb(128 145 170 / 12%);
+	border-radius: 14px;
+	background: rgb(128 145 170 / 7%);
+	color: var(--text-secondary, #8893a2);
+}
+
+.searchIcon {
+	font-size: 24px;
+	line-height: 1;
+	transform: rotate(-20deg);
+}
+
+.search input,
+.composer input {
+	width: 100%;
+	min-width: 0;
+	border: 0;
+	outline: 0;
+	background: transparent;
+	color: var(--text-primary, inherit);
+	font: inherit;
+}
+
+.search input {
+	font-size: 14px;
+}
+
+.search input::placeholder,
+.composer input::placeholder {
+	color: var(--text-secondary, #8893a2);
+	opacity: 1;
+}
+
+.filters {
+	display: flex;
+	gap: 8px;
+	margin-top: 16px;
+	overflow-x: auto;
+	scrollbar-width: none;
+}
+
+.filters button {
+	flex: 0 0 auto;
+	padding: 7px 12px;
+	border: 0;
+	border-radius: 18px;
+	font: inherit;
+	font-size: 12px;
+	cursor: pointer;
+}
+
+.filterActive {
+	background: rgb(82 151 255 / 16%);
+	color: #5297ff;
+	font-weight: 650;
+}
+
+.filter {
+	background: transparent;
+	color: var(--text-secondary, #8893a2);
+}
+
+.rose { background: linear-gradient(145deg, #f79caf, #da657f); }
+.blue { background: linear-gradient(145deg, #7cb9f8, #4977d2); }
+.violet { background: linear-gradient(145deg, #b396f6, #7857cd); }
+.amber { background: linear-gradient(145deg, #f6bd77, #d8893b); }
+.mint { background: linear-gradient(145deg, #74d4bb, #419982); }
+
+
+
+.emptySearch {
+	padding: 20px;
+	color: var(--text-secondary, #8893a2);
+	font-size: 14px;
+	text-align: center;
+}
+
+.sidebarFooter {
+	padding: 14px 12px;
+	border-top: 1px solid rgb(128 145 170 / 10%);
+	text-align: center;
+}
+
+.threadHeader {
+	display: flex;
+	min-height: 76px;
+	align-items: center;
+	gap: 12px;
+	padding: 12px 22px;
+	border-bottom: 1px solid rgb(128 145 170 / 12%);
+	background: rgb(255 255 255 / 2%);
+}
+
+.threadHeader .avatar {
+	width: 44px;
+	height: 44px;
+	flex-basis: 44px;
+}
+
+.threadIdentity {
+	display: flex;
+	min-width: 0;
+	flex: 1;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.threadIdentity strong {
+	overflow: hidden;
+	font-size: 15px;
+	font-weight: 650;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.threadIdentity span {
+	color: var(--text-secondary, #8893a2);
+	font-size: 12px;
+}
+
+.threadActions {
+	display: flex;
+	gap: 6px;
+}
+
+.threadActions button {
+	color: var(--text-secondary, #8893a2);
+	font-size: 22px;
+}
+
+.backButton {
+	display: none;
+	flex: 0 0 auto;
+	font-size: 34px;
+}
+
+.messages {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	gap: 10px;
+	padding: 24px clamp(16px, 6vw, 88px);
+	overflow: auto;
+}
+
+.dateDivider {
+	display: flex;
+	justify-content: center;
+	margin: 0 0 8px;
+}
+
+.dateDivider span {
+	padding: 6px 12px;
+	border: 1px solid rgb(128 145 170 / 10%);
+	border-radius: 16px;
+	background: rgb(128 145 170 / 8%);
+	color: var(--text-secondary, #8893a2);
+	font-size: 11px;
+}
+
+.messageRow {
+	display: flex;
+	justify-content: flex-start;
+}
+
+.messageOutgoing {
+	justify-content: flex-end;
+}
+
+.messageBubble {
+	max-width: min(74%, 520px);
+	padding: 10px 12px 7px;
+	border: 1px solid rgb(128 145 170 / 10%);
+	border-radius: 17px 17px 17px 5px;
+	background: var(--background-secondary, rgb(128 145 170 / 9%));
+	box-shadow: 0 2px 8px rgb(20 35 56 / 3%);
+}
+
+.messageOutgoing .messageBubble {
+	border-color: rgb(76 145 245 / 12%);
+	border-radius: 17px 17px 5px 17px;
+	background: linear-gradient(135deg, rgb(85 157 255 / 20%), rgb(94 130 238 / 18%));
+}
+
+.messageBubble p {
+	margin: 0 0 5px;
+	font-size: 14px;
+	line-height: 1.45;
+	overflow-wrap: anywhere;
+}
+
+.messageMeta {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 5px;
+	color: var(--text-secondary, #8893a2);
+	font-size: 10px;
+}
+
+.messageOutgoing .messageMeta span {
+	color: #579bff;
+	letter-spacing: -2px;
+}
+
+.composer {
+	display: flex;
+	min-height: 66px;
+	align-items: center;
+	gap: 12px;
+	margin: 0 24px 22px;
+	padding: 8px 10px;
+	border: 1px solid rgb(128 145 170 / 14%);
+	border-radius: 20px;
+	background: var(--background-secondary, var(--background-primary));
+	box-shadow: 0 8px 28px rgb(18 33 52 / 7%);
+}
+
+.composer > button {
+	display: grid;
+	width: 40px;
+	height: 40px;
+	flex: 0 0 auto;
+	place-items: center;
+	border: 0;
+	border-radius: 50%;
+	background: transparent;
+	color: var(--text-secondary, #8893a2);
+	cursor: pointer;
+	font: inherit;
+	font-size: 24px;
+}
+
+.composer > button:hover:not(:disabled) {
+	background: rgb(128 145 170 / 10%);
+}
+
+.composer .sendButton {
+	background: #579bff;
+	color: white;
+	font-size: 18px;
+}
+
+.composer .sendButton:disabled {
+	background: rgb(128 145 170 / 12%);
+	color: var(--text-secondary, #8893a2);
+	cursor: default;
+}
+
+.welcome {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	color: var(--text-secondary, #8893a2);
+	text-align: center;
+}
+
+.welcomeIcon {
+	display: grid;
+	width: 64px;
+	height: 64px;
+	place-items: center;
+	margin-bottom: 8px;
+	border-radius: 22px;
+	background: rgb(82 151 255 / 12%);
+	color: #579bff;
+	font-size: 30px;
+}
+
+.welcome h1,
+.welcome h2 {
+	margin: 0;
+	color: var(--text-primary, inherit);
+}
+
+.welcome p {
+	margin: 0;
+	font-size: 14px;
+}
+
+@media (max-width: 900px) {
+	.container {
+		padding: 8px;
+	}
+
+	.grid {
+		grid-template-columns: 58px minmax(260px, 320px) minmax(0, 1fr);
+		border-radius: 20px;
+	}
+
+	.actions {
+		padding-right: 6px;
+		padding-left: 6px;
+	}
+
+	.sidebarHeader {
+		padding-right: 14px;
+		padding-left: 14px;
+	}
+
+	.messages {
+		padding-right: 24px;
+		padding-left: 24px;
+	}
+
+	.composer {
+		margin-right: 14px;
+		margin-left: 14px;
+	}
+}
+
+@media (max-width: 640px) {
+	.container {
+		padding: 0;
+	}
+
+	.grid {
+		grid-template-columns: minmax(0, 1fr);
+		border: 0;
+		border-radius: 0;
+	}
+
+	.actions {
+		display: none;
+	}
+
+	.sidebar,
+	.thread {
+		grid-column: 1;
+		grid-row: 1;
+		border-right: 0;
+	}
+
+	.sidebarMobileHidden,
+	.threadMobileHidden {
+		display: none;
+	}
+
+	.sidebarHeader {
+		padding: 22px 16px 12px;
+	}
+
+	.threadHeader {
+		min-height: 68px;
+		gap: 9px;
+		padding: 10px 12px;
+	}
+
+	.backButton {
+		display: grid;
+	}
+
+	.messages {
+		padding: 18px 14px;
+	}
+
+	.messageBubble {
+		max-width: 86%;
+	}
+
+	.composer {
+		margin: 0 10px 12px;
+	}
+} */

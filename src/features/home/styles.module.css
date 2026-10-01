@@ -1,9 +1,16 @@
 .container {
-	min-height: 100dvh;
+	position: relative;
 	display: flex;
-	align-items: center;
-	justify-content: center;
-	background: var(--background-primary);
-    place-items: center;
-    overflow: hidden auto;
+	min-height: 100dvh;
+	flex-direction: column;
+	overflow: hidden;
+	background:
+		radial-gradient(ellipse at 16% 40%, rgb(80 159 255 / 10%), transparent 42%),
+		radial-gradient(ellipse at 90% 12%, rgb(83 206 155 / 8%), transparent 34%),
+		var(--background-primary);
+}
+
+.grid {
+	flex: 1;
+	padding: var(--size-padding-base-padding-vertical) var(--size-padding-base-padding-horizontal);
 }

@@ -1,0 +1,15 @@
+.sidebarHeader {
+  padding: 24px 18px 12px;
+}
+
+.sidebarTitle {
+  margin-bottom: 18px;
+}
+
+.sidebarTitleRow h1,
+.sidebarTitleRow h2 {
+	margin: 0;
+	font-size: 24px;
+	font-weight: 700;
+	letter-spacing: -0.5px;
+}

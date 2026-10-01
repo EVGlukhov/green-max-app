@@ -1,6 +1,6 @@
 import { Link } from 'react-router';
 import styles from './styles.module.css';
-import { Button, Container, Flex, Panel, Typography } from '@maxhub/max-ui';
+import { Button, Flex, Panel, Typography } from '@maxhub/max-ui';
 
 export default function NoMatch() {
 	return (

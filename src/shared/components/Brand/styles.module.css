@@ -1,0 +1,9 @@
+.brand {
+	display: grid;
+	width: 38px;
+	height: 38px;
+	place-items: center;
+	border-radius: var(--size-border-radius-button-small);
+	background: var(--gradient-blue);
+	color: var(--text-primary);
+}
