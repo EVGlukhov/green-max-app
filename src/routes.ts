@@ -7,7 +7,12 @@ import NoMatch from "./features/auth/components/NoMatch/NoMatch";
 export const router = createBrowserRouter([
   {
     path: "/",
-    Component: Home,
+		children: [
+			{
+        index: true,
+        Component: Home
+      }
+		]
   },
   {
     path: "/chat",
