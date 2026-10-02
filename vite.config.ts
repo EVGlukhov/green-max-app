@@ -4,7 +4,7 @@ import { defineConfig } from 'vite'
 
 // https://vite.dev/config/
 export default defineConfig({
-	base: "",
+	base: "https://evglukhov.github.io/green-max-app/",
 	resolve: {
     alias: {
       '@': path.resolve(import.meta.dirname, './src'),
