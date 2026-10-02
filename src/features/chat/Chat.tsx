@@ -1,41 +1,60 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type FormEvent } from "react";
 import { Container, Flex, Grid, IconButton, Panel, Typography } from "@maxhub/max-ui";
 import { Brand } from "@/shared";
 import { useGreen, type Contact } from "@/api"
 import { ChatListHeader, ChatList } from "./components";
-import { useChat } from "./hooks/useChat";;
+import { useChat } from "./hooks/useChat";
 import { ChatAvatar } from "./components/ChatAvatar/ChatAvatar";
 import { ChatSearchContact } from "./components/ChatSearchContact/ChatSearchContact";
 import { Dialog } from "@/shared/dialog/Dialog";
+import * as utils from "./utils";
 
 import styles from "./styles.module.css";
 
 export function Chat() {
-	const { chats, logout, getChats, credentials, getChatHistory, addContact } = useGreen();
-	const { selectedChatId, visibleChats, searchChat, selectChat, activeChat } = useChat(chats)
+	const { chats, logout, getChats, credentials, getChatHistory, addContact, sendMessage } = useGreen();
+	const { selectedChatId, visibleChats, searchChat, selectChat, activeChat } = useChat(chats);
 	const [ draftMessage, setDraftMessage ] = useState('');
 	const [ isDialogOpen, setIsDialogOpen ] = useState(false);
+	const [ isSending, setIsSending ] = useState(false);
+	const messagesEndRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
-		getChats();
-	}, [])
+		getChats()
+	}, [getChats]);
 
-	const handleSelectChat = async (chatId: string) => {
-		if (credentials) {
-			selectChat(chatId);
-			getChatHistory(chatId);
-		}
-	}
+	const handleSelectChat = useCallback(async (chatId: string) => {
+		if (!credentials) return;
+		selectChat(chatId);
+		await getChatHistory(chatId);
+	}, [credentials, getChatHistory, selectChat]);
 
 	const onOpenDialog = useCallback(() => {
 		setIsDialogOpen(true);
-	}, [])
+	}, []);
 
 	const handleAddContact = useCallback(async (contact: Contact) => {
 		await addContact(contact);
 		await getChats();
 		setIsDialogOpen(false);
-	}, [])
+	}, [addContact, getChats]);
+
+	const handleSendMessage = useCallback(async (event: FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
+		const message = draftMessage.trim();
+		if (!message || !activeChat || !credentials || isSending) return;
+
+		const chatId = activeChat.chatId;
+
+		setIsSending(true);
+		setDraftMessage('');
+		await sendMessage(chatId, message);
+		await getChatHistory(chatId);
+	}, [activeChat, credentials, draftMessage, getChatHistory, isSending, sendMessage]);
+
+	useEffect(() => {
+		messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+	}, [activeChat?.chatId, activeChat?.messages]);
 
 	return (
 		<Container className={styles.container}>
@@ -53,7 +72,10 @@ export function Chat() {
 					</IconButton>
 				</Flex>
 
-				<Panel mode="primary" className={styles.sidebar}>
+				<Panel
+					mode="primary"
+					className={styles.sidebar}
+				>
 					<ChatListHeader onSearch={searchChat} onAdd={onOpenDialog} />
 					<ChatList
 						chats={visibleChats}
@@ -71,7 +93,7 @@ export function Chat() {
 
 				<Panel
 					mode="primary"
-					className={styles.thread}
+					className={`${styles.thread} ${selectedChatId ? "" : styles.threadMobileHidden}`}
 				>
 					{activeChat ? (
 						<>
@@ -87,54 +109,63 @@ export function Chat() {
 								<ChatAvatar chat={activeChat} />
 								<div className={styles.threadIdentity}>
 									<strong>{activeChat.name}</strong>
+									{activeChat.lastSeen ? (
+										<span>Был(а) недавно</span>
+									) : null}
 								</div>
 							</header>
-
 							<div className={styles.messages} aria-live="polite">
-								<div className={styles.dateDivider}><span>Сегодня</span></div>
-								{activeChat.messages?.map((message) => (
-									<div
-										key={message.idMessage}
-										className={`${styles.messageRow} ${message.type === 'outgoing' ? styles.messageOutgoing : ""}`}
-									>
-										<div className={styles.messageBubble}>
-											<p>{message.textMessage}</p>
-											<span className={styles.messageMeta}>
-												{message.timestamp}
-												{message.type === 'outgoing' && <span aria-label="Отправлено">✓✓</span>}
-											</span>
+								{activeChat.messages?.length ? (
+									activeChat.messages.map((message) => (
+										<div
+											key={message.idMessage}
+											className={`${styles.messageRow} ${message.type === 'outgoing' ? styles.messageOutgoing : ""}`}
+										>
+											<div className={styles.messageBubble}>
+												<p>{message.textMessage || "Сообщение без текста"}</p>
+												<span className={styles.messageMeta}>
+													{utils.formatMessageTime(message.timestamp)}
+													{message.type === 'outgoing' && <span aria-label="Отправлено">✓✓</span>}
+												</span>
+											</div>
 										</div>
-									</div>
-								))}
+									))
+								) : (
+									<Typography.Body>Сообщений пока нет</Typography.Body>
+								)}
+								<div ref={messagesEndRef} />
 							</div>
 
-							<form className={styles.composer} onSubmit={() => {}}>
-								<button type="button" aria-label="Прикрепить файл">＋</button>
+							<form className={styles.composer} onSubmit={handleSendMessage}>
 								<input
 									value={draftMessage}
 									onChange={(event) => setDraftMessage(event.target.value)}
 									placeholder="Сообщение"
 									aria-label="Сообщение"
+									disabled={isSending}
 								/>
 								<button
 									type="submit"
 									className={styles.sendButton}
 									aria-label="Отправить сообщение"
-									disabled={!draftMessage.trim()}
+									disabled={!draftMessage.trim() || isSending}
 								>
-									➤
+									{isSending ? "…" : "➤"}
 								</button>
 							</form>
 						</>
 					) : (
-						<div className={styles.welcome}>
-							<span className={styles.welcomeIcon}>✦</span>
-							<Typography.Headline>Ваши сообщения</Typography.Headline>
-							<p>Выберите чат, чтобы начать общение</p>
-						</div>
+						<>
+							<div className={styles.welcome}>
+								<span className={styles.welcomeIcon}>✦</span>
+								<Typography.Headline>Ваши сообщения</Typography.Headline>
+								<Typography.Body>Выберите чат, чтобы начать общение</Typography.Body>
+							</div>
+						</>
 					)}
 				</Panel>
 			</Grid>
 		</Container>
 	);
 }
+

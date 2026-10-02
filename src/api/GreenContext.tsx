@@ -13,12 +13,13 @@ type GreenState = {
   credentials: Credentials | null;
   chats: Chat[];
   stateInstance: string;
-  getStateInstance(credentials: Credentials): Promise<StateInstance | void>;
-  getChats(): Promise<Chat[] | void>;
-	addContact(contact: Contact): Promise<void>;
-  getAvatar(chatId: string): Promise<AvatarResponse | void>;
-  getChatHistory(chatId: string): Promise<Message[] | void>;
-  getContactInfo(chatId: string): Promise<ContactInfo | void>;
+  getStateInstance: (credentials: Credentials) => Promise<StateInstance | void>;
+  getChats: () => Promise<Chat[] | void>;
+	addContact: (contact: Contact) => Promise<void>;
+  getAvatar: (chatId: string) => Promise<AvatarResponse | void>;
+  getChatHistory: (chatId: string) => Promise<Message[] | void>;
+	sendMessage: (chatId: string, message: string) => Promise<void>;
+  getContactInfo: (chatId: string) => Promise<ContactInfo | void>;
   logout: () => void;
 }
 
@@ -31,10 +32,10 @@ const initialState: GreenState = {
 	getChatHistory: () => Promise.resolve([]),
 	getStateInstance: () => Promise.resolve({ stateInstance: '' }),
 	getContactInfo: () => Promise.resolve({} as ContactInfo),
-	addContact: () => Promise.resolve(void 0),
+	sendMessage: () => Promise.resolve(),
+	addContact: () => Promise.resolve(),
   logout: () => {},
 }
 
 export const GreenContext = createContext<GreenState>(initialState);
-
 

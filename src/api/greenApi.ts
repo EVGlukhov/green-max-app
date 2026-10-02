@@ -42,3 +42,9 @@ export const addContact = (c: Credentials, contact: Contact): Promise<void> =>
     method: "POST",
   }).then((response) => response.json());
 
+export const sendMessage = (c: Credentials, chatId: string, message: string): Promise<void> =>
+	fetch(`${c.apiUrl}/waInstance${c.idInstance}/sendMessage/${c.apiTokenInstance}`, {
+		body: JSON.stringify({ chatId, message }),
+    method: "POST",
+  }).then((response) => response.json());
+

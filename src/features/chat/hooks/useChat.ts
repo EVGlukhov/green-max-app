@@ -19,9 +19,9 @@ export function useChat(chats: Chat[]) {
 
 	const activeChat = chats.find(({ chatId }) => chatId === selectedChatId) ?? null;
 
-	const selectChat = (id: string) => {
+	const selectChat = useCallback((id: string) => {
 		setSelectedChatId(id);
-	};
+	}, []);
 
 	return { selectedChatId, visibleChats, activeChat, selectChat, searchChat }
 }

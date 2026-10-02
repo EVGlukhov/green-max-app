@@ -1,12 +1,12 @@
 import { isRequired, useForm, type Validation } from "@/shared/form"
 import { Button, Input } from "@maxhub/max-ui"
-import { useTransition } from "react"
+import { useState, useTransition } from "react"
 import type { Contact } from "@/api"
 
 import styles from './styles.module.css'
 
 type Props = {
-	onAdd(contact: Contact): void
+	onAdd: (contact: Contact) => Promise<void>
 }
 export function ChatSearchContact({ onAdd }: Props) {
 	const initialState = {
@@ -18,10 +18,16 @@ export function ChatSearchContact({ onAdd }: Props) {
 		({ chatId }) => isRequired(chatId) || { chatId: 'Укажите номер телефона' },
 	]
 	const [isPending, startTransition] = useTransition();
+	const [error, setError] = useState<string | null>(null);
 
-	const { values, changeHandler, submitHandler, isValid } = useForm<Contact>(initialState, validations, () => {
+	const { changeHandler, submitHandler, isValid } = useForm<Contact>(initialState, validations, (values) => {
+		setError(null);
 		startTransition(async () => {
-			await onAdd(values)
+			try {
+				await onAdd(values);
+			} catch (requestError) {
+				setError(requestError instanceof Error ? requestError.message : "Не удалось добавить контакт.");
+			}
 		})
 	});
 
@@ -45,7 +51,8 @@ export function ChatSearchContact({ onAdd }: Props) {
 				onChange={changeHandler}
 				className={styles.input}
 			/>
-			<Button size="medium" type="submit" disabled={!isValid}>
+			{error && <p role="alert">{error}</p>}
+			<Button size="medium" type="submit" disabled={!isValid || isPending} loading={isPending}>
 				Добавить
 			</Button>
 		</form>

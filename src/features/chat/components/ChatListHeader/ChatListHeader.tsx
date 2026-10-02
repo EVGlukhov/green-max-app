@@ -3,8 +3,8 @@ import { Flex, IconButton, Input, Typography } from '@maxhub/max-ui';
 import styles from './styles.module.css';
 
 type Props = {
-	onSearch(term: string): void
-	onAdd(): void
+	onSearch: (term: string) => void
+	onAdd: () => void
 }
 
 export function ChatListHeader({ onSearch, onAdd }: Props) {

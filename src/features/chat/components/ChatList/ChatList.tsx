@@ -5,7 +5,7 @@ import { ChatListItem } from '../ChatListItem/ChatListItem';
 type Props = {
 	chats: Chat[];
 	selectedChatId: string;
-	onSelect(id: string): void;
+	onSelect: (id: string) => void;
 }
 export function ChatList({ chats, selectedChatId, onSelect }: Props) {
 	return (

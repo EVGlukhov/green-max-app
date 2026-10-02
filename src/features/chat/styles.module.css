@@ -43,30 +43,24 @@
 }
 
 .thread {
+	min-width: 0;
+	min-height: 0;
+	height: 100%;
 	display: flex;
 	flex-direction: column;
-	overflow: auto;
+	overflow: hidden;
 	background:
 		radial-gradient(ellipse at 50% 20%, rgb(87 155 255 / 6%), transparent 55%),
 		var(--background-primary);
 }
 
 .disconnectButton {
-	font-size: 22px;
-	transform: scaleX(-1);
-}
-
-
-.disconnectButton {
 	position: relative;
 	width: 44px;
 	height: 44px;
 	border-radius: 15px;
-}
-
-.icon {
-	width: 22px;
-	height: 22px;
+	font-size: 22px;
+	transform: scaleX(-1);
 }
 
 .sidebar {
@@ -201,26 +195,12 @@
 
 .messages {
 	display: flex;
+	min-height: 0;
 	flex: 1;
 	flex-direction: column;
 	gap: 10px;
 	padding: 24px clamp(16px, 6vw, 88px);
 	overflow: auto;
-}
-
-.dateDivider {
-	display: flex;
-	justify-content: center;
-	margin: 0 0 8px;
-}
-
-.dateDivider span {
-	padding: 6px 12px;
-	border: 1px solid rgb(128 145 170 / 10%);
-	border-radius: 16px;
-	background: rgb(128 145 170 / 8%);
-	color: var(--text-secondary, #8893a2);
-	font-size: 11px;
 }
 
 .messageRow {
@@ -335,98 +315,3 @@
 	font-size: 30px;
 }
 
-.welcome h1,
-.welcome h2 {
-	margin: 0;
-	color: var(--text-primary, inherit);
-}
-
-.welcome p {
-	margin: 0;
-	font-size: 14px;
-}
-
-@media (max-width: 900px) {
-	.container {
-		padding: 8px;
-	}
-
-	.grid {
-		grid-template-columns: 58px minmax(260px, 320px) minmax(0, 1fr);
-		border-radius: 20px;
-	}
-
-	.actions {
-		padding-right: 6px;
-		padding-left: 6px;
-	}
-
-	.sidebarHeader {
-		padding-right: 14px;
-		padding-left: 14px;
-	}
-
-	.messages {
-		padding-right: 24px;
-		padding-left: 24px;
-	}
-
-	.composer {
-		margin-right: 14px;
-		margin-left: 14px;
-	}
-}
-
-@media (max-width: 640px) {
-	.container {
-		padding: 0;
-	}
-
-	.grid {
-		grid-template-columns: minmax(0, 1fr);
-		border: 0;
-		border-radius: 0;
-	}
-
-	.actions {
-		display: none;
-	}
-
-	.sidebar,
-	.thread {
-		grid-column: 1;
-		grid-row: 1;
-		border-right: 0;
-	}
-
-	.sidebarMobileHidden,
-	.threadMobileHidden {
-		display: none;
-	}
-
-	.sidebarHeader {
-		padding: 22px 16px 12px;
-	}
-
-	.threadHeader {
-		min-height: 68px;
-		gap: 9px;
-		padding: 10px 12px;
-	}
-
-	.backButton {
-		display: grid;
-	}
-
-	.messages {
-		padding: 18px 14px;
-	}
-
-	.messageBubble {
-		max-width: 86%;
-	}
-
-	.composer {
-		margin: 0 10px 12px;
-	}
-}
