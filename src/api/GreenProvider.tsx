@@ -18,23 +18,50 @@ export const GreenProvider = ({ children }: AuthProviderProps) => {
 		const result = await greenApi.getStateInstance(credentials);
 		setCredentials(credentials);
 		setStateInstance(result.stateInstance);
-
-		return result;
-	} catch (error) {
-		console.error("Ошибка подключения:", error);
-		throw error;
+	} catch {
+		throw new Error('Ошибка при получении состояния инстанса. Проверьте правильность введенных данных.');
 	}
   };
 
-  const getChats = async (credentials: Credentials) => {
+  const getChats = async () => {
+	if (credentials === null) return;
 	try {
 		const result = await greenApi.getChats(credentials);
 		setChats(result)
 
 		return result;
-	} catch (error) {
-		console.error("Ошибка получения списка чатов:", error);
-		throw error;
+	} catch(error) {
+		throw new Error('Ошибка при получении списка чатов. Проверьте правильность введенных данных.');
+	}
+  }
+
+  const getContactInfo = async (chatId: string) => {
+	if (credentials === null) return;
+	try {
+		const response = await greenApi.getContactInfo(credentials, chatId);
+		setChats((chats) => chats.map((chat) => chat.chatId === chatId ? {...chat, ...response } : chat))
+	} catch {
+		throw new Error('Ошибка при получении информации о контакте. Проверьте правильность введенных данных.');
+	}
+  }
+
+  const getAvatar = async (chatId: string) => {
+	if (credentials === null) return;
+	try {
+		const response = await greenApi.getAvatar(credentials, chatId);
+		setChats((chats) => chats.map((chat) => chat.chatId === chatId ? {...chat, avatar: response.urlAvatar } : chat))
+	} catch {
+		throw new Error('Ошибка при получении аватара контакта. Проверьте правильность введенных данных.');
+	}
+  }
+
+  const getChatHistory = async (chatId: string) => {
+	if (credentials === null) return;
+	try {
+		const response = await greenApi.getChatHistory(credentials, chatId);
+		setChats((chats) => chats.map((chat) => chat.chatId === chatId ? {...chat, messages: response } : chat))
+	} catch {
+		throw new Error('Ошибка при получении истории чата. Проверьте правильность введенных данных.');
 	}
   }
 
@@ -43,11 +70,16 @@ export const GreenProvider = ({ children }: AuthProviderProps) => {
 	setCredentials(null);
   };
 
+  console.log('chats', chats)
+
   const value = {
 	credentials,
 	chats,
     stateInstance,
     getStateInstance,
+	getContactInfo,
+	getChatHistory,
+	getAvatar,
 	getChats,
     logout,
   };

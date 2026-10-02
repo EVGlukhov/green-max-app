@@ -45,6 +45,7 @@
 .thread {
 	display: flex;
 	flex-direction: column;
+	overflow: auto;
 	background:
 		radial-gradient(ellipse at 50% 20%, rgb(87 155 255 / 6%), transparent 55%),
 		var(--background-primary);
@@ -55,33 +56,12 @@
 	transform: scaleX(-1);
 }
 
-/*
-.
-
-.navigation {
-	display: flex;
-	flex: 1;
-	flex-direction: column;
-	gap: 10px;
-}
-
 
 .disconnectButton {
 	position: relative;
 	width: 44px;
 	height: 44px;
 	border-radius: 15px;
-}
-
-.navButton::before {
-	position: absolute;
-	top: 10px;
-	bottom: 10px;
-	left: -9px;
-	width: 3px;
-	border-radius: 0 3px 3px 0;
-	background: #579bff;
-	content: "";
 }
 
 .icon {
@@ -97,7 +77,6 @@
 }
 
 .composeButton,
-.threadActions button,
 .backButton {
 	display: grid;
 	width: 38px;
@@ -113,27 +92,8 @@
 }
 
 .composeButton:hover,
-.threadActions button:hover,
 .backButton:hover {
 	background: rgb(128 145 170 / 12%);
-}
-
-.search {
-	display: flex;
-	height: 42px;
-	align-items: center;
-	gap: 9px;
-	padding: 0 12px;
-	border: 1px solid rgb(128 145 170 / 12%);
-	border-radius: 14px;
-	background: rgb(128 145 170 / 7%);
-	color: var(--text-secondary, #8893a2);
-}
-
-.searchIcon {
-	font-size: 24px;
-	line-height: 1;
-	transform: rotate(-20deg);
 }
 
 .search input,
@@ -184,27 +144,6 @@
 .filter {
 	background: transparent;
 	color: var(--text-secondary, #8893a2);
-}
-
-.rose { background: linear-gradient(145deg, #f79caf, #da657f); }
-.blue { background: linear-gradient(145deg, #7cb9f8, #4977d2); }
-.violet { background: linear-gradient(145deg, #b396f6, #7857cd); }
-.amber { background: linear-gradient(145deg, #f6bd77, #d8893b); }
-.mint { background: linear-gradient(145deg, #74d4bb, #419982); }
-
-
-
-.emptySearch {
-	padding: 20px;
-	color: var(--text-secondary, #8893a2);
-	font-size: 14px;
-	text-align: center;
-}
-
-.sidebarFooter {
-	padding: 14px 12px;
-	border-top: 1px solid rgb(128 145 170 / 10%);
-	text-align: center;
 }
 
 .threadHeader {
@@ -490,4 +429,4 @@
 	.composer {
 		margin: 0 10px 12px;
 	}
-} */
+}

@@ -1,32 +1,25 @@
+import { CellList, Typography } from '@maxhub/max-ui';
 import type { Chat } from '@/api/greenTypes';
-import styles from './styles.module.css'
+import { ChatListItem } from '../ChatListItem/ChatListItem';
 
 type Props = {
 	chats: Chat[];
-	selectedId: string;
+	selectedChatId: string;
 	onSelect(id: string): void;
 }
-export function ChatList({ chats, selectedId, onSelect }: Props) {
-	debugger
+export function ChatList({ chats, selectedChatId, onSelect }: Props) {
 	return (
-		<div className={styles.conversationList}>
+		<CellList filled mode="island">
 			{chats.map((chat) => (
-				<button
-					type="button"
-					key={chat.chatId}
-					className={`${styles.conversation} ${chat.chatId === selectedId ? styles.chatActive : ""}`}
-					onClick={() => onSelect(chat.chatId)}
-				>
-					<span className={styles.conversationDetails}>
-						<span className={styles.conversationTop}>
-							<strong>{chat.name}</strong>
-						</span>
-					</span>
-				</button>
+				<ChatListItem key={chat.chatId}
+					chat={chat}
+					active={chat.chatId === selectedChatId}
+					onSelect={onSelect}>
+				</ChatListItem>
 			))}
 			{chats.length === 0 && (
-				<p className={styles.emptySearch}>Ничего не найдено</p>
+				<Typography.Label>Ничего не найдено</Typography.Label>
 			)}
-		</div>
+		</CellList>
 	)
 }

@@ -1,51 +1,31 @@
-import { Container, Flex, Grid, IconButton, Panel } from "@maxhub/max-ui";
+import { useEffect, useState } from "react";
+import { Container, Flex, Grid, IconButton, Panel, Typography } from "@maxhub/max-ui";
 import { Brand } from "@/shared";
-import { useGreen } from "@/api/useGreen"
+import { useGreen } from "@/api"
 import { ChatListHeader, ChatList } from "./components";
 import { useChat } from "./hooks/useChat";;
+import { ChatAvatar } from "./components/ChatAvatar/ChatAvatar";
 
 import styles from "./styles.module.css";
-import { useEffect } from "react";
 
 export function Chat() {
-	const { chats, logout, getChats, credentials } = useGreen();
-	const { selectedChatId, visibleChats, searchChat, selectChat } = useChat(chats)
+	const { chats, logout, getChats, credentials, getChatHistory } = useGreen();
+	const { selectedChatId, visibleChats, searchChat, selectChat, activeChat } = useChat(chats)
+	const [ draftMessage, setDraftMessage ] = useState('');
 
 	useEffect(() => {
 		if (!credentials)
 			return
 
 		getChats(credentials);
-	}, [credentials])
+	}, [])
 
-
-	// const sendMessage = (event: FormEvent<HTMLFormElement>) => {
-	// 	event.preventDefault();
-	// 	const text = draft.trim();
-	// 	if (!text || !activeConversation) return;
-
-	// 	const time = new Intl.DateTimeFormat("ru", {
-	// 		hour: "2-digit",
-	// 		minute: "2-digit",
-	// 	}).format(new Date());
-
-	// 	setConversations((current) =>
-	// 		current.map((conversation) =>
-	// 			conversation.id === activeConversation.id
-	// 				? {
-	// 						...conversation,
-	// 						preview: text,
-	// 						time,
-	// 						messages: [
-	// 							...conversation.messages,
-	// 							{ id: Date.now(), text, time, outgoing: true },
-	// 						],
-	// 					}
-	// 				: conversation,
-	// 		),
-	// 	);
-	// 	setDraft("");
-	// };
+	const handleSelectChat = async (chatId: string) => {
+		if (credentials) {
+			selectChat(chatId);
+			getChatHistory(chatId);
+		}
+	}
 
 	return (
 		<Container className={styles.container}>
@@ -67,58 +47,54 @@ export function Chat() {
 					<ChatListHeader onSearch={searchChat} />
 					<ChatList
 						chats={visibleChats}
-						selectedId={selectedChatId}
-						onSelect={selectChat} />
+						selectedChatId={selectedChatId}
+						onSelect={handleSelectChat} />
 				</Panel>
 
 				<Panel
 					mode="primary"
 					className={styles.thread}
 				>
-					{/* {activeConversation ? (
+					{activeChat ? (
 						<>
 							<header className={styles.threadHeader}>
 								<button
 									type="button"
 									className={styles.backButton}
-									onClick={() => setSelectedId(null)}
+									onClick={() => selectChat('')}
 									aria-label="Назад к чатам"
 								>
 									‹
 								</button>
-								<span className={`${styles.avatar} ${styles[activeConversation.color]}`}>
-									{activeConversation.initials}
-									{activeConversation.online && <span className={styles.onlineDot} />}
-								</span>
+								<ChatAvatar chat={activeChat} />
 								<div className={styles.threadIdentity}>
-									<strong>{activeConversation.name}</strong>
-									<span>{activeConversation.online ? "в сети" : "был(а) недавно"}</span>
+									<strong>{activeChat.name}</strong>
 								</div>
 							</header>
 
 							<div className={styles.messages} aria-live="polite">
 								<div className={styles.dateDivider}><span>Сегодня</span></div>
-								{activeConversation.messages.map((message) => (
+								{activeChat.messages?.map((message) => (
 									<div
-										key={message.id}
-										className={`${styles.messageRow} ${message.outgoing ? styles.messageOutgoing : ""}`}
+										key={message.idMessage}
+										className={`${styles.messageRow} ${message.type === 'outgoing' ? styles.messageOutgoing : ""}`}
 									>
 										<div className={styles.messageBubble}>
-											<p>{message.text}</p>
+											<p>{message.textMessage}</p>
 											<span className={styles.messageMeta}>
-												{message.time}
-												{message.outgoing && <span aria-label="Отправлено">✓✓</span>}
+												{message.timestamp}
+												{message.type === 'outgoing' && <span aria-label="Отправлено">✓✓</span>}
 											</span>
 										</div>
 									</div>
 								))}
 							</div>
 
-							<form className={styles.composer} onSubmit={sendMessage}>
+							<form className={styles.composer} onSubmit={() => {}}>
 								<button type="button" aria-label="Прикрепить файл">＋</button>
 								<input
-									value={draft}
-									onChange={(event) => setDraft(event.target.value)}
+									value={draftMessage}
+									onChange={(event) => setDraftMessage(event.target.value)}
 									placeholder="Сообщение"
 									aria-label="Сообщение"
 								/>
@@ -126,7 +102,7 @@ export function Chat() {
 									type="submit"
 									className={styles.sendButton}
 									aria-label="Отправить сообщение"
-									disabled={!draft.trim()}
+									disabled={!draftMessage.trim()}
 								>
 									➤
 								</button>
@@ -138,7 +114,7 @@ export function Chat() {
 							<Typography.Headline>Ваши сообщения</Typography.Headline>
 							<p>Выберите чат, чтобы начать общение</p>
 						</div>
-					)} */}
+					)}
 				</Panel>
 			</Grid>
 		</Container>

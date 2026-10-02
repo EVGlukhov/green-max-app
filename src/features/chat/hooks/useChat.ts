@@ -1,8 +1,7 @@
 import { useCallback, useMemo, useState } from "react";
 import type { Chat } from "@/api";
 
-export function useChat(initialChats: Chat[]) {
-	const [chats, setChats] = useState(initialChats);
+export function useChat(chats: Chat[]) {
 	const [selectedChatId, setSelectedChatId] = useState<string>('');
 	const [searchTerm, setSearchTerm] = useState('');
 
@@ -18,17 +17,10 @@ export function useChat(initialChats: Chat[]) {
 		);
 	}, [chats, searchTerm]);
 
-
-	const activeChat =
-		chats.find(({ chatId }) => chatId === selectedChatId) ?? chats[0];
+	const activeChat = chats.find(({ chatId }) => chatId === selectedChatId) ?? null;
 
 	const selectChat = (id: string) => {
 		setSelectedChatId(id);
-		setChats((current) =>
-			current.map((chat) =>
-				chat.chatId === id ? { ...chat, unread: undefined } : chat,
-			),
-		);
 	};
 
 	return { selectedChatId, visibleChats, activeChat, selectChat, searchChat }

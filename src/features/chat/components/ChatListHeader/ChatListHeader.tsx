@@ -8,12 +8,13 @@ type Props = {
 
 export function ChatListHeader({ onSearch }: Props) {
 	return (
-		<header className={styles.sidebarHeader}>
-			<Flex justify="space-between">
+		<header className={styles.chatListHeader}>
+			<Flex justify="space-between" className={styles.chatListEyebrow}>
 				<Typography.Headline>Чаты</Typography.Headline>
 				<IconButton variant="primary" size="small">+</IconButton>
 			</Flex>
 			<Input type="search"
+				size="medium"
 				onChange={(event) => onSearch(event.target.value)}
 				placeholder="Поиск">
 			</Input>

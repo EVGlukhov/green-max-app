@@ -1,15 +1,7 @@
-.sidebarHeader {
-  padding: 24px 18px 12px;
+.chatListHeader {
+  padding: 24px 12px 12px;
 }
 
-.sidebarTitle {
+.chatListEyebrow {
   margin-bottom: 18px;
-}
-
-.sidebarTitleRow h1,
-.sidebarTitleRow h2 {
-	margin: 0;
-	font-size: 24px;
-	font-weight: 700;
-	letter-spacing: -0.5px;
 }
