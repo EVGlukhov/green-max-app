@@ -11,9 +11,9 @@ interface Props {
 
 export function ConnectForm({ onConnect }: Props) {
 	const initialState: Credentials = {
-		idInstance: '410022753399',
-		apiTokenInstance: '63e864c2759e45e1b5624852c3703d6dd7d245b4db9349548b',
-		apiUrl: 'https://4100.api.green-api.com'
+		idInstance: '',
+		apiTokenInstance: '',
+		apiUrl: ''
 	};
 	const validations: Validation<Credentials>[] = [
 		({ idInstance }) => isNumeric(idInstance) || { idInstance: 'Укажите числовой idInstance' },
