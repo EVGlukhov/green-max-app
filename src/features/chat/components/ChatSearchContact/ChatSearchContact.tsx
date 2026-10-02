@@ -16,6 +16,7 @@ export function ChatSearchContact({ onAdd }: Props) {
 	}
 	const validations: Validation<Contact>[] = [
 		({ chatId }) => isRequired(chatId) || { chatId: 'Укажите номер телефона' },
+		({ firstName }) => isRequired(firstName) || { firstName: 'Укажите имя' }
 	]
 	const [isPending, startTransition] = useTransition();
 	const [error, setError] = useState<string | null>(null);
