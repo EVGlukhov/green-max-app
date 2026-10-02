@@ -1,6 +1,6 @@
 import { useState } from "react";
 import * as greenApi from './greenApi'
-import { type Chat, type Credentials } from "./greenTypes";
+import { type Chat, type Contact, type Credentials } from "./greenTypes";
 import { GreenContext } from "./GreenContext";
 
 type AuthProviderProps = {
@@ -65,6 +65,18 @@ export const GreenProvider = ({ children }: AuthProviderProps) => {
 	}
   }
 
+  const addContact = async (contact: Contact) => {
+	if (credentials === null) return;
+	try {
+		const response = await greenApi.addContact(credentials, contact);
+		return response;
+	} catch {
+		throw new Error('Ошибка при получении истории чата. Проверьте правильность введенных данных.');
+	}
+  }
+
+
+
   const logout = () => {
     setStateInstance("");
 	setCredentials(null);
@@ -79,6 +91,7 @@ export const GreenProvider = ({ children }: AuthProviderProps) => {
     getStateInstance,
 	getContactInfo,
 	getChatHistory,
+	addContact,
 	getAvatar,
 	getChats,
     logout,

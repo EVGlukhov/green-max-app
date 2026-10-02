@@ -1,23 +1,23 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Container, Flex, Grid, IconButton, Panel, Typography } from "@maxhub/max-ui";
 import { Brand } from "@/shared";
-import { useGreen } from "@/api"
+import { useGreen, type Contact } from "@/api"
 import { ChatListHeader, ChatList } from "./components";
 import { useChat } from "./hooks/useChat";;
 import { ChatAvatar } from "./components/ChatAvatar/ChatAvatar";
+import { ChatSearchContact } from "./components/ChatSearchContact/ChatSearchContact";
+import { Dialog } from "@/shared/dialog/Dialog";
 
 import styles from "./styles.module.css";
 
 export function Chat() {
-	const { chats, logout, getChats, credentials, getChatHistory } = useGreen();
+	const { chats, logout, getChats, credentials, getChatHistory, addContact } = useGreen();
 	const { selectedChatId, visibleChats, searchChat, selectChat, activeChat } = useChat(chats)
 	const [ draftMessage, setDraftMessage ] = useState('');
+	const [ isDialogOpen, setIsDialogOpen ] = useState(false);
 
 	useEffect(() => {
-		if (!credentials)
-			return
-
-		getChats(credentials);
+		getChats();
 	}, [])
 
 	const handleSelectChat = async (chatId: string) => {
@@ -26,6 +26,16 @@ export function Chat() {
 			getChatHistory(chatId);
 		}
 	}
+
+	const onOpenDialog = useCallback(() => {
+		setIsDialogOpen(true);
+	}, [])
+
+	const handleAddContact = useCallback(async (contact: Contact) => {
+		await addContact(contact);
+		await getChats();
+		setIsDialogOpen(false);
+	}, [])
 
 	return (
 		<Container className={styles.container}>
@@ -44,12 +54,20 @@ export function Chat() {
 				</Flex>
 
 				<Panel mode="primary" className={styles.sidebar}>
-					<ChatListHeader onSearch={searchChat} />
+					<ChatListHeader onSearch={searchChat} onAdd={onOpenDialog} />
 					<ChatList
 						chats={visibleChats}
 						selectedChatId={selectedChatId}
 						onSelect={handleSelectChat} />
 				</Panel>
+
+				<Dialog
+					isOpen={isDialogOpen}
+					onClose={() => setIsDialogOpen(false)}
+					title="Добавить контакт"
+				>
+					<ChatSearchContact onAdd={handleAddContact} />
+				</Dialog>
 
 				<Panel
 					mode="primary"

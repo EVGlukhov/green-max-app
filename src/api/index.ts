@@ -4,6 +4,7 @@ export { useGreen } from './useGreen';
 export type {
 	Credentials,
 	StateInstance,
-	ContactInfoResponse as ContactInfo,
+	Contact,
+	ContactInfo,
 	Chat
 } from './greenTypes';

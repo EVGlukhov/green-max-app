@@ -2,7 +2,8 @@ import { createContext } from "react";
 import type {
 	AvatarResponse,
 	Chat,
-	ContactInfoResponse,
+	Contact,
+	ContactInfo,
 	Credentials,
 	Message,
 	StateInstance
@@ -13,11 +14,11 @@ type GreenState = {
   chats: Chat[];
   stateInstance: string;
   getStateInstance(credentials: Credentials): Promise<StateInstance | void>;
-  getChats(credentials: Credentials): Promise<Chat[] | void>;
-
+  getChats(): Promise<Chat[] | void>;
+	addContact(contact: Contact): Promise<void>;
   getAvatar(chatId: string): Promise<AvatarResponse | void>;
   getChatHistory(chatId: string): Promise<Message[] | void>;
-  getContactInfo(chatId: string): Promise<ContactInfoResponse | void>;
+  getContactInfo(chatId: string): Promise<ContactInfo | void>;
   logout: () => void;
 }
 
@@ -28,8 +29,9 @@ const initialState: GreenState = {
 	getChats: () => Promise.resolve([]),
 	getAvatar: () => Promise.resolve({ urlAvatar: '' }),
 	getChatHistory: () => Promise.resolve([]),
-    getStateInstance: () => Promise.resolve({ stateInstance: '' }),
-	getContactInfo: () => Promise.resolve({} as ContactInfoResponse),
+	getStateInstance: () => Promise.resolve({ stateInstance: '' }),
+	getContactInfo: () => Promise.resolve({} as ContactInfo),
+	addContact: () => Promise.resolve(void 0),
   logout: () => {},
 }
 

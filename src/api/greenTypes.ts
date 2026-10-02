@@ -4,6 +4,12 @@ export type Credentials = {
 	apiUrl: string;
 }
 
+export type Contact = {
+	chatId: string;
+	firstName: string;
+	lastName: string;
+}
+
 export type StateInstance = {
 	stateInstance: string;
 }
@@ -14,7 +20,7 @@ export type AvatarResponse = {
 
 type ChatType = "user" | "bot";
 
-export type ContactInfoResponse = {
+export type ContactInfo = {
 	avatar: string,
 	name: string,
 	contactName: string,
@@ -55,5 +61,5 @@ export type Chat = {
 	phoneNumber: number;
 	username: string;
 	messages?: Message[];
-} & Partial<ContactInfoResponse>
+} & Partial<ContactInfo>
 
